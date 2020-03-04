@@ -12,9 +12,7 @@ const PORT = 4001;
 
 const app = express();
 const cache = apicache.middleware;
-app.use(
-  cors()
-);
+app.use(cors())
 app.use(compression());
 // create a write stream (in append mode)
 const accessLogStream = fs.createWriteStream(
@@ -25,19 +23,19 @@ const accessLogStream = fs.createWriteStream(
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }));
 
-app.get('/api/cases', cache('1 hour'), async (req, res) => {
+app.get('/casos', cache('1 hour'), async (req, res) => {
   const scraper = new Scraper();
   const data = await scraper.fetchTimeSeries();
   return res.json(data);
 });
 
-app.get('/api/timeline', cache('5 hours'), async (req, res) => {
+app.get('/timeline', cache('5 hours'), async (req, res) => {
   const scraper = new Scraper();
   const data = await scraper.getTimeline();
   return res.json(data);
 });
 
-app.get('*', (req, res) => res.send('Page Not found'));
+app.get('*', (req, res) => res.send('Estoy atrapado en una fábrica china, tengo sospechas de virus, ayuda'));
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
